@@ -3,10 +3,10 @@
 
 #include <LiquidCrystal.h>
 
-#define LCD_LEFT_POS 9
+#define LCD_LEFT_POS 10
 #define LCD_RIGHT_POS 13
 
-#define DEBUG
+//#define FOR_DEBUG
 
 class Joystick {
 	bool is_defined;
@@ -43,13 +43,13 @@ public:
 				if (dataX != 127) differ_x = dataX - 127;
 				dataY = map(analogRead(y_pin), 0, 1023, 255, 0);
 				if (dataY != 127) differ_y = dataY - 127;
-#ifdef DEBUG
+#ifdef FOR_DEBUG
 				Serial.print("differ_x:");
 				Serial.print(differ_x);
 				Serial.print(" | differ_y:");
 				Serial.print(differ_y);
 				Serial.println(" DEFINED!");
-#endif // DEBUG
+#endif //FOR_DEBUG
 				is_defined = true;
 			}
 			else{
@@ -61,9 +61,9 @@ public:
 				if(dataY > (0 + differ_y) && dataY < (255 - differ_y))
 					dataY -= differ_y;		
 
-		        if(analogRead(cl_pin) > 512) dataClick = 255;
-		        else dataClick = 0;
-#ifdef DEBUG
+		        if(analogRead(cl_pin) > 512) dataClick = 0;
+		        else dataClick = 255;
+#ifdef FOR_DEBUG
 				Serial.print("sigX:");
 				Serial.print(dataX);
 				Serial.print(" | sigY:");
@@ -71,7 +71,7 @@ public:
         		Serial.print(" | click:");
         		Serial.print(dataClick);
 				Serial.println();
-#endif // DEBUG
+#endif //FOR_DEBUG
 			}
 			previousMillis = currentMillis; //remember time
 		}
@@ -83,16 +83,18 @@ public:
 		else pos = LCD_RIGHT_POS;
 		//Y
 		lcd.setCursor(pos, 1);
-		if(y >= 64 && y < 128) lcd.write(byte(4));
+    if(y > 5 && y < 64) lcd.write("_");
+		else if(y >= 64 && y < 128) lcd.write(byte(4));
 		else if(y >= 128 && y < 192) lcd.write(byte(5));
 		else if(y >= 192 && y <= 255) lcd.write(byte(6));
-		else lcd.write("_");
+		else lcd.write(" ");
 		//X
 		lcd.setCursor(pos+1, 1);
-		if(x >= 64 && x < 128) lcd.write(byte(4));
+    if(x > 5 && x < 64) lcd.write("_");
+		else if(x >= 64 && x < 128) lcd.write(byte(4));
 		else if(x >= 128 && x < 192) lcd.write(byte(5));
 		else if(x >= 192 && x <= 255) lcd.write(byte(6));
-		else lcd.write("_");
+		else lcd.write(" ");
 		//CLICKED
 		lcd.setCursor(pos+2, 1);
 		if(cl >= 128) lcd.write(byte(6));

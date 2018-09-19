@@ -14,10 +14,12 @@
 #define MIN_VOLTAGE 6.6//min voltage
 #define MAX_VOLTAGE 8.4//max voltage
 
+#define VOLTAGE_PIN A2
+
 #define JOY_LEFT_X A0
 #define JOY_LEFT_Y A1
 #define JOY_LEFT_CLICK A5
-#define VOLTAGE_PIN A2
+
 #define JOY_RIGHT_X A3
 #define JOY_RIGHT_Y A4
 #define JOY_RIGHT_CLICK A6
@@ -56,10 +58,10 @@ void setup() {
 								   //ВНИМАНИЕ!!! enableAckPayload НЕ РАБОТАЕТ НА СКОРОСТИ 250 kbps!
 	radio.powerUp(); //начать работу
 	radio.stopListening();  //не слушаем радиоэфир, мы передатчик
-#ifdef DEBUG
+#ifdef FOR_DEBUG
 	Serial.begin(9600);
 	Serial.println("Start PULT!");
-#endif // DEBUG
+#endif //FOR_DEBUG
 }
 void loop() {
 	while (true)
@@ -67,14 +69,12 @@ void loop() {
 		//more important
 		joy_left.update(data_upr[0], data_upr[1], data_upr[4]);
 		joy_right.update(data_upr[2], data_upr[3], data_upr[5]);
-		joy_left.on_lcd(lcd, data_upr[0], data_upr[1], data_upr[4]);
-		joy_right.on_lcd(lcd, data_upr[2], data_upr[3], data_upr[5]);
 		//WI-FI
 		if (radio.write(&data_upr, sizeof(data_upr))) {
 			if (!radio.available()) {                     //если получаем не пустой ответ
-#ifdef DEBUG
+#ifdef FOR_DEBUG
 				Serial.println("Empty!");
-#endif // DEBUG
+#endif //FOR_DEBUG
 			}
 			else {
 				while (radio.available()) {                      //если в ответе что-то есть
@@ -82,17 +82,19 @@ void loop() {
 					volt_kv = gotByte;
 					volt_kv /= 10;
 					volt.is_conn = true;
-#ifdef DEBUG
+          joy_left.on_lcd(lcd, data_upr[0], data_upr[1], data_upr[4]);
+          joy_right.on_lcd(lcd, data_upr[2], data_upr[3], data_upr[5]);
+#ifdef FOR_DEBUG
 					Serial.print("Answer: "); Serial.println(volt_kv);
-#endif // DEBUG
+#endif //FOR_DEBUG
 				}
 			}
 		}
 		else {
 			volt.is_conn = false;
-#ifdef DEBUG
+#ifdef FOR_DEBUG
 			//Serial.println("Fail connect");
-#endif // DEBUG
+#endif //FOR_DEBUG
 		}
 		//less important
 		volt.show_all_pult_voltage(lcd);
