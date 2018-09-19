@@ -26,8 +26,8 @@ const int rs = 7, en = 6, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 Voltage volt(VOLTAGE_PIN, TIME_READ_VOLTAGE, MIN_VOLTAGE, MAX_VOLTAGE);
-Joystick joy_left(JOY_LEFT_X, JOY_LEFT_Y, JOY_LEFT_CLICK, TIME_READ_JOYSTICK);
-Joystick joy_right(JOY_RIGHT_X, JOY_RIGHT_Y, JOY_RIGHT_CLICK, TIME_READ_JOYSTICK);
+Joystick joy_left(JOY_LEFT_X, JOY_LEFT_Y, JOY_LEFT_CLICK, TIME_READ_JOYSTICK, true);
+Joystick joy_right(JOY_RIGHT_X, JOY_RIGHT_Y, JOY_RIGHT_CLICK, TIME_READ_JOYSTICK, false);
 uint8_t data_upr[SIZE_OF_DATA] = {0, 0, 0, 0, 0, 0};
 Flasher led(8, TIME_READ_JOYSTICK, TIME_READ_JOYSTICK);
 //WI-FI
