@@ -67,6 +67,8 @@ void loop() {
 		//more important
 		joy_left.update(data_upr[0], data_upr[1], data_upr[4]);
 		joy_right.update(data_upr[2], data_upr[3], data_upr[5]);
+		joy_left.on_lcd(lcd, data_upr[0], data_upr[1], data_upr[4]);
+		joy_right.on_lcd(lcd, data_upr[2], data_upr[3], data_upr[5]);
 		//WI-FI
 		if (radio.write(&data_upr, sizeof(data_upr))) {
 			if (!radio.available()) {                     //если получаем не пустой ответ

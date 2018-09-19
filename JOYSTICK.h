@@ -15,7 +15,7 @@ class Joystick {
 	uint8_t differ_y;
 	uint8_t x_pin;
 	uint8_t y_pin;
-  uint8_t cl_pin;
+	uint8_t cl_pin;
 	long period; //period
 	unsigned long previousMillis; //last read
 public:
