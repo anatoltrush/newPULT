@@ -35,5 +35,21 @@ void lcd_initialization(LiquidCrystal &lcd) {
 
   lcd.setCursor(11, 0);
   lcd.write(byte(3));
+  
+  //---------------------
+  lcd.setCursor(9, 1);
+  lcd.write(">");
+  lcd.setCursor(10, 1);
+  lcd.write("_");
+  lcd.setCursor(11, 1);
+  lcd.write("_");
+  lcd.setCursor(12, 1);
+  lcd.write("_");
+  lcd.setCursor(13, 1);
+  lcd.write("_");
+  lcd.setCursor(14, 1);
+  lcd.write("_");
+  lcd.setCursor(15, 1);
+  lcd.write("_");
 }
 #endif // INIT_PULT
